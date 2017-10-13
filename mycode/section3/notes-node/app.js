@@ -15,13 +15,26 @@ console.log('Command: ',command);
 console.log('Yarg: ', argv);
 
 if (command === 'add') {
-	notes.addNote(argv.title, argv.body);
+	var note = notes.addNote(argv.title, argv.body);
+
+	if (_.isUndefined(note)) {
+		console.log('Cannot add duplicates!');
+	} else {
+		console.log(`Added New Note !`);
+		console.log(`---------------------`);
+		console.log(`Title: ${note.title}`);
+		console.log(`Body: ${note.body}`);
+		console.log(`---------------------`);
+	}
 } else if (command === 'list') {
 	notes.getAll();
 } else if (command === 'read') {
 	notes.getNote(argv.title);
 } else if (command === 'remove') {
-	notes.delNote(argv.title);
+	var deletedNote = notes.delNote(argv.title);
+	var message = (deletedNote) ? `Deleted Note with Title: ${argv.title}`
+								: `Note was not found`
+	console.log(message);
 }else {
 	console.log('Command unknown');
 }
