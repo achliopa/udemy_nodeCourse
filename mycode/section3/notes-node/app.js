@@ -17,7 +17,7 @@ console.log('Yarg: ', argv);
 if (command === 'add') {
 	var note = notes.addNote(argv.title, argv.body);
 
-	if (_.isUndefined(note)) {
+	if (note) {
 		console.log('Cannot add duplicates!');
 	} else {
 		console.log(`Added New Note !`);
@@ -27,9 +27,28 @@ if (command === 'add') {
 		console.log(`---------------------`);
 	}
 } else if (command === 'list') {
-	notes.getAll();
+	var foundNotes = notes.getAll();
+	if(foundNotes.length > 0) {
+		console.log(`List of Found Notes`);
+		console.log(`---------------------`);
+		foundNotes.forEach((note) => {
+			console.log(`Title: ${note.title}`);
+			console.log(`Body: ${note.body}`);
+			console.log(`---------------------`);
+		});
+	} else {
+		console.log(`Found No Notes!`);
+	}
 } else if (command === 'read') {
-	notes.getNote(argv.title);
+	var note = notes.getNote(argv.title);
+	if (!note) {
+		console.log('Could not find note!');
+	} else {
+		console.log(`Found Note with Title: ${argv.title}!`);
+		console.log(`---------------------`);
+		console.log(`Note Body: ${note.body}`);
+		console.log(`---------------------`);
+	}
 } else if (command === 'remove') {
 	var deletedNote = notes.delNote(argv.title);
 	var message = (deletedNote) ? `Deleted Note with Title: ${argv.title}`
