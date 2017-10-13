@@ -1,26 +1,27 @@
-console.log('Starting App...');
+console.log('Starting app.js...');
 
 const fs = require('fs');
-const os = require('os');
 const _ = require('lodash');
+const yargs = require('yargs');
+
 const notes = require('./notes');
 
+const argv = yargs.argv;
 
-// console.log(_.isString(true));
-// console.log(_.isString(3232));
-// console.log(_.isString('hello'));
+// Printout Command Line Arguments
+var command = process.argv[2];
+console.log('Command: ',command);
+// console.log('Process.argv: ', process.argv);
+console.log('Yarg: ', argv);
 
-
-var filteredArray = _.uniq(['Makis',1,'Makis',2,3,4,1])
-console.log(filteredArray);
-
-// var res = notes.addNote();
-// console.log(res);
-// console.log(`Sum is: ${notes.add(1,2)}`);
-// var user = os.userInfo();
-
-// fs.appendFile('greetings.txt', `Hello ${user.username}! You are ${notes.age}.`, function(err) {
-// 	if(err) {
-// 		console.log('Unable to write to file');
-// 	}
-// }) 
+if (command === 'add') {
+	notes.addNote(argv.title, argv.body);
+} else if (command === 'list') {
+	notes.getAll();
+} else if (command === 'read') {
+	notes.getNote(argv.title);
+} else if (command === 'remove') {
+	notes.delNote(argv.title);
+}else {
+	console.log('Command unknown');
+}
