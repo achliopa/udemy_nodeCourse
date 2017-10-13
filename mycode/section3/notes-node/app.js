@@ -22,9 +22,7 @@ if (command === 'add') {
 	} else {
 		console.log(`Added New Note !`);
 		console.log(`---------------------`);
-		console.log(`Title: ${note.title}`);
-		console.log(`Body: ${note.body}`);
-		console.log(`---------------------`);
+		notes.logNote(note);
 	}
 } else if (command === 'list') {
 	var foundNotes = notes.getAll();
@@ -32,23 +30,20 @@ if (command === 'add') {
 		console.log(`List of Found Notes`);
 		console.log(`---------------------`);
 		foundNotes.forEach((note) => {
-			console.log(`Title: ${note.title}`);
-			console.log(`Body: ${note.body}`);
-			console.log(`---------------------`);
+			notes.logNote(note);
 		});
 	} else {
 		console.log(`Found No Notes!`);
 	}
 } else if (command === 'read') {
 	var note = notes.getNote(argv.title);
-	if (!note) {
-		console.log('Could not find note!');
+	if (note) {
+		console.log(`Note Found!`);
+		console.log(`---------------------`);
+		notes.logNote(note);
 	} else {
-		console.log(`Found Note with Title: ${argv.title}!`);
-		console.log(`---------------------`);
-		console.log(`Note Body: ${note.body}`);
-		console.log(`---------------------`);
-	}
+		console.log('No Note Found!');
+	} 
 } else if (command === 'remove') {
 	var deletedNote = notes.delNote(argv.title);
 	var message = (deletedNote) ? `Deleted Note with Title: ${argv.title}`

@@ -43,9 +43,7 @@ var getNote = (title) => {
 	//find note by title
 	var filteredNotes = notes.filter((note) => note.title === title);
 	//return note
-	if(filteredNotes.length >0) {
-		return filteredNotes[0];
-	}
+	return filteredNotes[0];
 }
 
 var delNote = (title) => {
@@ -56,9 +54,16 @@ var delNote = (title) => {
 	return (notes.length !== filteredNotes.length);
 }
 
+var logNote = (note) => {
+	console.log(`Title: ${note.title}`);
+	console.log(`Body: ${note.body}`);
+	console.log(`---------------------`);
+}
+
 module.exports = {
 	addNote,
 	getAll,
 	getNote,
-	delNote
+	delNote,
+	logNote
 };
