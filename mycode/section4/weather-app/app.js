@@ -20,7 +20,13 @@ request({
 }, (error,response,body) => {
 	// console.log(body);
 	// console.log(JSON.stringify(body,undefined,2));
-	console.log(`Address: ${body.results[0].formatted_address}`);
-	console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-	console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+	if(error) {
+		console.log('Unable to connect to Google Servers');
+	} else if (body.status === 'ZERO_RESULTS') {
+		console.log('Address Not Found');
+	} else if (body.status === 'OK') {
+		console.log(`Address: ${body.results[0].formatted_address}`);
+		console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
+		console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+	}
 })
