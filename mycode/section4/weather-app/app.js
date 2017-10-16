@@ -19,12 +19,16 @@ geocode.geocodeAddress(argv.address, (err, results) => {
 	if(err) {
 		console.log(err);
 	} else {
-		console.log(JSON.stringify(results,undefined,2));
+		// console.log(JSON.stringify(results,undefined,2));
+		console.log(`Address: ${results.address}`);
+		console.log(`Coordinates: Lat(${results.latitude}),Lng(${results.longitude})`);
 		weather.getWeather(results.latitude,results.longitude, (err, results) => {
 			if(err) {
 				console.log(err);
 			} else {
-				console.log(JSON.stringify(results,undefined,2));	
+				// console.log(JSON.stringify(results,undefined,2));
+				console.log(`Temperature: ${results.temperature} oC`);
+				console.log(`Feels Like: ${results.apparentTemp} oC`);
 			}
 		});
 	}
