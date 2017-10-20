@@ -12,7 +12,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-//POST route
+//POST todo route
 app.post('/todos', (req,res) => {
 	var todo = new Todo({
 		text: req.body.text
@@ -20,6 +20,15 @@ app.post('/todos', (req,res) => {
 
 	todo.save().then((doc) => {
 		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+//GET todos route
+app.get('/todos', (req,res) => {
+	Todo.find().then((todos) => {
+		res.send({todos});
 	}, (e) => {
 		res.status(400).send(e);
 	});
