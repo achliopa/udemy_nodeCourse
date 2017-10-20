@@ -1,32 +1,28 @@
-var mongoose = require('mongoose');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-mongoose.connect('mongodb://localhost/TodoApp', {useMongoClient: true});
-mongoose.Promise = global.Promise;
+var {mongoose} = require('../db/mongoose');
+var {Todo} = require('../models/todo');
+var {User} = require('../models/user');
 
-var Todo = mongoose.model('Todo', {
-	text: {
-		type: String,
-		required: true,
-		minlength: 1,
-		trim: true
-	},
-	completed: {
-		type: Boolean,
-		default: false
-	},
-	completedAt: {
-		type: Number,
-		default: null
-	}
+const port = process.env.PORT || 3000;
+const ip = process.env.IP || 'localhost';
+
+var app = express();
+
+app.use(bodyParser.json());
+
+//POST route
+app.post('/todos', (req,res) => {
+	console.log(req.body);
 });
 
-var User = mongoose.model('User', {
-	email: {
-		type: String,
-		required: true,
-		minlength: 3,
-		trim: true
-	}
+app.get('/', (req,res) => {
+	res.send('Hi');
+});
+
+app.listen(port, ip, () => {
+	console.log('App is listening on port: ', port);
 });
 
 // var newTodo = new Todo({
@@ -39,9 +35,9 @@ var User = mongoose.model('User', {
 // 	// completedAt: Date.now()
 // });
 
-var newUser = new User({
-	email: 'andreq@mead.com'	
-});
+// var newUser = new User({
+// 	email: 'andreq@mead.com'	
+// });
 
 // newTodo.save().then((doc) => {
 // 	console.log('Saved todo',doc);
@@ -49,8 +45,8 @@ var newUser = new User({
 // 	console.log('Unable to save todo');
 // });
 
-newUser.save().then((doc) => {
-	console.log('Saved user',doc);
-}, (err) => {
-	console.log('Unable to save todo ', err);
-});
+// newUser.save().then((doc) => {
+// 	console.log('Saved user',doc);
+// }, (err) => {
+// 	console.log('Unable to save todo ', err);
+// });
