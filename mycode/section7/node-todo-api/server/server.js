@@ -1,9 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var {mongoose} = require('../db/mongoose');
-var {Todo} = require('../models/todo');
-var {User} = require('../models/user');
+var {mongoose} = require('./db/mongoose');
+var {Todo} = require('./models/todo');
+var {User} = require('./models/user');
 
 const port = process.env.PORT || 3000;
 const ip = process.env.IP || 'localhost';
@@ -28,6 +28,8 @@ app.post('/todos', (req,res) => {
 app.listen(port, ip, () => {
 	console.log('App is listening on port: ', port);
 });
+
+module.exports = {app};
 
 // var newTodo = new Todo({
 // 	text: 'Cook dinner'
