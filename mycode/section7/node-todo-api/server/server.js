@@ -14,11 +14,15 @@ app.use(bodyParser.json());
 
 //POST route
 app.post('/todos', (req,res) => {
-	console.log(req.body);
-});
+	var todo = new Todo({
+		text: req.body.text
+	});
 
-app.get('/', (req,res) => {
-	res.send('Hi');
+	todo.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
 });
 
 app.listen(port, ip, () => {
