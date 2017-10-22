@@ -70,7 +70,7 @@ app.patch('/todos/:id', (req,res) => {
 	var body = _.pick(req.body, ['text','completed']);
 
 	if(!ObjectID.isValid(id)){
-		return res.status(404),send();
+		return res.status(404),sebd();
 	}
 
 	if(_.isBoolean(body.completed) && (body.completed)) {
@@ -86,6 +86,17 @@ app.patch('/todos/:id', (req,res) => {
 		}
 		res.send({todo});
 	}).catch((e) => res.status(400).send());
+});
+
+// POST /users
+app.post('/users', (req,res) => {
+	var body = _.pick(req.body, ['email','password']);
+	var user = new User(body);
+	user.save().then((user) => {
+		res.send(user);
+	}, (e) => {
+		res.status(400).send(e);
+	});
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
