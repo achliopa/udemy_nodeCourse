@@ -13,7 +13,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-//POST todo route
+//POST /todos
 app.post('/todos', (req,res) => {
 	var todo = new Todo({
 		text: req.body.text
@@ -35,7 +35,7 @@ app.get('/todos', (req,res) => {
 	});
 });
 
-//GET todo by id route
+//GET /todos/:id
 app.get('/todos/:id', (req,res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)) {
@@ -49,7 +49,7 @@ app.get('/todos/:id', (req,res) => {
 	}).catch((e) => res.status(400).send());
 });
 
-//DELETE todo 
+//DELETE /todos/:id 
 app.delete('/todos/:id', (req,res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)) {
@@ -92,9 +92,18 @@ app.patch('/todos/:id', (req,res) => {
 app.post('/users', (req,res) => {
 	var body = _.pick(req.body, ['email','password']);
 	var user = new User(body);
-	user.save().then((user) => {
-		res.send(user);
-	}, (e) => {
+	
+	// Model method
+	// User.somemethod() eg findByToken()
+	// Instance method
+	// user.somemethod() eg generateAuthToken()
+	
+	user.save().then(() => {
+		return user.generateAuthToken();
+		//res.send(user);
+	}).then((token)=>{
+		res.header('x-auth', token).send(user);
+	}).catch((e) => {
 		res.status(400).send(e);
 	});
 });
