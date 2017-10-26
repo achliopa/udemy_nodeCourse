@@ -5,23 +5,25 @@ socket.on('connect', function() {
 	console.log('Connected to server');
 });
 
-socket.on('newUser', function(welcome) {
-	console.log(welcome);
-});
-
-socket.on('newUserBroadc', function(welcome) {
-	console.log(welcome);
-});
-
-socket.emit('createMessage', {
-	from: 'Andrew',
-	text: 'Hey. This is Andrew'
-});
-
 socket.on('disconnect', function() {
 	console.log('Disconnected from server');
 });
 
 socket.on('newMessage', function(message) {
-	console.log('(' + message.from + ')@' + message.createdAt + ': ' + message.text);
+	console.log('newMessage',message);
+	var li = jQuery('<li></li>');
+	li.text(`${message.from}: ${message.text}`);
+	jQuery('#messages').append(li);
+});
+
+jQuery('#message-form').on('submit', function(e) {
+	//prevent default behavior of submit even that is page refresh
+	e.preventDefault();
+	
+	socket.emit('createMessage', {
+		from: 'User',
+		text: jQuery('[name=message]').val()
+	}, function(data) {
+		console.log('Got it! ',data);
+	});
 });
