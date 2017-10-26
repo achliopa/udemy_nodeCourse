@@ -5,6 +5,14 @@ socket.on('connect', function() {
 	console.log('Connected to server');
 });
 
+socket.on('newUser', function(welcome) {
+	console.log(welcome.adminTxt);
+});
+
+socket.on('newUserBroadc', function(welcome) {
+	console.log(welcome.adminTxt);
+});
+
 socket.emit('createMessage', {
 	from: 'Andrew',
 	text: 'Hey. This is Andrew'
