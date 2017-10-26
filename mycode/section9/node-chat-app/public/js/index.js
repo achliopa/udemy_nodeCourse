@@ -6,11 +6,11 @@ socket.on('connect', function() {
 });
 
 socket.on('newUser', function(welcome) {
-	console.log(welcome.adminTxt);
+	console.log(welcome);
 });
 
 socket.on('newUserBroadc', function(welcome) {
-	console.log(welcome.adminTxt);
+	console.log(welcome);
 });
 
 socket.emit('createMessage', {
