@@ -72,14 +72,24 @@ const getStatus = (userId) => {
         return `${user.name} has an average of ${average}%`;
 
     });
-}
+};
 
 // async/await basics
 
 // async functions always return promises
 
 const getStatusAlt = async (userId) => {
-    return 'Mike';
+    // return in an async function equal resolve
+    // throw new error in an async function equals reject
+    // throw new Error('This is an error');
+    // return 'Mike';
+    const user = await getUser(userId);
+    const grades = await getGrades(user.schoolId);
+    let average = 0;
+    if(grades.length > 0) {
+        average = grades.map((grade) => grade.grade).reduce((a, b) => a + b) / grades.length;            
+    }
+    return `${user.name} has an average of ${average}%`;
 };
 
 // identical to
@@ -90,8 +100,10 @@ const getStatusAlt = async (userId) => {
 //     });
 // };
 
-getStatusAlt().then((name) => {
+getStatusAlt(1).then((name) => {
     console.log(name);
+}).catch((e) => {
+    console.log(e);
 });
 
 
